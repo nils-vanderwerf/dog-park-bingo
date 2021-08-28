@@ -34,9 +34,11 @@ export default class App extends Component {
     const pool = Array.apply(null, Array(max+1)).map(function (_, i) {return i;});
       let arr = [];
       while(arr.length < max){
-        const idx = parseInt(Math.random() * (max+1));
+        const idx = Math.floor(Math.random()* dogBingoOptions.length)
+        const dogEl = dogBingoOptions[idx]
+        console.log(idx)
         if(pool[idx] != 0){
-          arr.push(pool[idx]);
+          arr.push(dogEl);
           pool[idx] = 0;
         }
       }
