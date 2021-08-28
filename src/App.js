@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import {dogBingoOptions} from './constants/dogBingoOptions'
-import CardContainer from './components/cardContainer'
+import Board from './components/Board'
 let dimension = 5;
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       pick: new Array(dimension * dimension).fill(0),
-      picked: [],
+      slots: [],
       result: [],
       row: [],
       column: [],
@@ -24,7 +24,7 @@ export default class App extends Component {
     const randCards = this.generateCards(dimension * dimension)
     console.log(randCards)
     this.setState({
-      pick: randCards,
+      slots: randCards,
       result: randCards
     })
   }
@@ -51,7 +51,7 @@ export default class App extends Component {
         <h1>Bingo</h1>
         <button>Clear</button>
         <button onClick={this.handleGenerateRandom}>New Card</button>
-        <CardContainer/>
+        <Board slots = {this.state.slots}/>
       </div>
     )
   }
