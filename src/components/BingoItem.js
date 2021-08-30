@@ -1,5 +1,5 @@
 import React from 'react'
-export default class Btn extends React.Component{
+export default class BingoItem extends React.Component{
     constructor(props){
       super(props);
       
@@ -18,9 +18,8 @@ export default class Btn extends React.Component{
       }
       return(
         <div className={"btn " + status} 
-          onClick={(e) => this.handleClick(this.props.position)}
-        >
-          {(this.props.slots != 0) ? this.props.slots : <span className="black">&nbsp;</span>}
+          onClick={(e) => this.handleClick(this.props.idx)}>
+            {(this.props.element != null) ? this.props.element : <span className="black">&nbsp;</span>}
         </div>
       );
     }
