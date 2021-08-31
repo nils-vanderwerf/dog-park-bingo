@@ -5,15 +5,9 @@ body{
 .container {
   padding: 20px;
 }
-.btn{
-  background-color: black;
-  height: 24px;
-  margin: 1px;
-  padding: 10px;
+
+h1 {
   text-align: center;
-  display: inline-block;
-  cursor: pointer;
-  color: white;
 }
 .btn:hover{
 /*   background-color: yellow; */

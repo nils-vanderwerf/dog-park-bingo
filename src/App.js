@@ -14,7 +14,8 @@ export default class App extends Component {
       rows: [],
       column: [],
       options: dogBingoOptions,
-      hits: []
+      hits: [], 
+      prevCompleted: []
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleClear = this.handleClear.bind(this)
@@ -134,15 +135,24 @@ export default class App extends Component {
     lines.push(slash2);
 
     const hits = this.state.hits.map(hit => parseInt(hit));
-    let rtn = [];
 
     console.log("PARSE INT HITS", hits)
 
     console.log(hits, lines)
 
     for(let i = 0; i < lines.length; i++){
-      if (lines[i].every(c => hits.includes(c))) {
-        alert("LINE COMPLETE!")
+      //If the hits includes every member of a line
+      //and the prev completed array has not been completed before
+      if (lines[i].every(c => hits.includes(c)) && 
+      !this.state.prevCompleted.includes(i) &&
+      this.state.prevCompleted.length < 12 ) {
+        alert(`LINE ${i} COMPLETE!`)
+        this.setState({
+          prevCompleted: [...this.state.prevCompleted, i]
+        })
+      }
+      else if (this.state.prevCompleted.length === 12) {
+        alert(`~~~ ALL LINES COMPLETE! YOU WIN! ~~~`)
       }
   }
   
