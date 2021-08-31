@@ -1,6 +1,10 @@
 body{
   background-color: gray;
 }
+
+.container {
+  padding: 20px;
+}
 .btn{
   background-color: black;
   height: 24px;
@@ -24,14 +28,13 @@ body{
 
 .Game__bingo_cards {
   display: flex;
-  flex-wrap: wrap;
   margin-bottom: 20px;
   gap: 20px;
 }
 
-.Game__bingo_cards .square {
-  width: 100px;
-  height: 100px;
+.Game__bingo_card .square {
+  aspect-ratio: 1;
+  flex-wrap: nowrap;
   padding: 10px;
   margin: 2px;
   background-color: black;

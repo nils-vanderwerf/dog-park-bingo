@@ -8,7 +8,7 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cards: [],
+      card: null,
       pick: new Array(dimension * dimension).fill(0),
       slots: [],
       row: [],
@@ -27,7 +27,7 @@ export default class App extends Component {
 
   handleClear = () => {
     this.setState({
-      cards: []
+      card: null
     })
   }
   handleGenerateRandom = () => {
@@ -37,17 +37,6 @@ export default class App extends Component {
     this.setState({
       slots: randCards,
     })
-    let newCard = 
-    <Card
-      hits={this.state.hits}
-      slots={this.state.slots}
-      dimension={dimension}
-    />
-
-    this.setState({
-      cards: [...this.state.cards, newCard]
-    })
-
   }
 
   handleGo() {
@@ -111,13 +100,19 @@ export default class App extends Component {
 
   render() {
 
+
+
     return (
-      <div>
+      <div className="container">
         <h1>Bingo</h1>
         <button onClick={this.handleClear}>Clear</button>
         <button onClick={this.handleGenerateRandom}>New Card</button>
-        <div className="Game__bingo_cards">
-          {this.state.cards}
+        <div className="Game__bingo_card">
+          <Card
+            hits={this.state.hits}
+            slots={this.state.slots}
+            dimension={dimension}
+          />
         </div>
       </div>
     )

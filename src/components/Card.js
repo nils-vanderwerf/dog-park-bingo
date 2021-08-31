@@ -33,27 +33,20 @@ export default class Card extends Component {
       }
       
     render() {
-      
-      const rowsCopy = this.state.rows
-      console.log(rowsCopy)
+      const card_tiles = this.props.slots.map((s, i) => 
+      <Grid item style={{width: '20%'}}>
+      <BingoItem key={i} active={ ((this.props.hits || []).includes(s)) } 
+        lined={ ((this.props.hit_lines || []).includes(i)) }
+        idx={i} slot={s} 
+        handle={this.props.handle}
+      />
+      </Grid>
+    );
 
         return (
-          <div className="bingo_card">
-            <Grid
-                container
-                direction="row"
-                justifyContent="center"
-                // alignItems="center"
-                className="group"
-                item xs={2.5}
-            >
-                {this.state.rows.map(row => {
-                  return (
-                  <BingoRow row = {row}/>
-                  )
-                })}
+          <Grid container className="bingo_card" xs={12}>
+                {card_tiles}
             </Grid>
-            </div>
         )
     }
 }
