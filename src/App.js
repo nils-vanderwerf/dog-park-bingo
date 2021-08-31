@@ -4,22 +4,31 @@ import Card from './components/Card'
 // import './App.css'
 import { styled } from '@material-ui/core/styles';
 let dimension = 5;
+
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       pick: new Array(dimension * dimension).fill(0),
       slots: [],
-      row: [],
+      rows: [],
       column: [],
       options: dogBingoOptions,
-      hits: null,
+      hits: []
     }
-
+    this.handleClick = this.handleClick.bind(this)
     this.handleClear = this.handleClear.bind(this)
     this.handleGenerateRandom = this.handleGenerateRandom.bind(this)
   }
 
+  handleClick(event) {
+    event.target.classList.add("mark-found")
+    console.log("TARGET CHILDREN", event.target.lastChild.id)
+    this.setState({
+      hits: [...this.state.hits, event.target.lastChild.id]
+    }, function () { this.checkLine(event.target.lastChild.id) })
+
+  }
   handleClear = () => {
     const textConts = document.querySelectorAll('span.text-content')
     for (let i = 0; i < textConts.length; i++) {
@@ -42,14 +51,14 @@ export default class App extends Component {
     console.log(randCards)
     this.setState({
       slots: randCards,
-    }, function() { this.fillSquares() })
+    }, function () { this.fillSquares() })
     this.removeMarked()
   }
 
   fillSquares() {
     const textConts = document.querySelectorAll('span.text-content')
     for (let i = 0; i < textConts.length; i++) {
-      console.log("RANDOM ELEMENT", this.state.slots[i])
+      textConts[i].setAttribute("id", i)
       textConts[i].innerHTML = this.state.slots[i]
     }
   }
@@ -86,6 +95,60 @@ export default class App extends Component {
     });
   }
 
+  checkLine(clickedEl) {
+    console.log("CLICKED EL", clickedEl)
+    const lines = [
+      //       [0,1,2,3,4],
+      //       [5,6,7,8,9],
+      //       [10,11,12,13,14],
+      //       [15,16,17,18,19],
+      //       [20,21,22,23,24],
+
+      //       [0,5,10,15,20],
+      //       [1,6,11,16,21],
+      //       [2,7,12,17,22],
+      //       [3,8,13,18,23],
+      //       [4,9,14,19,24],
+
+      // [0,6,12,18,24],
+      // [4,8,12,16,20]
+    ];
+
+    let slash1 = [];
+    let slash2 = [];
+
+    for (let i = 0; i < dimension; i++) {
+      let row = [];
+      let col = [];
+      for (var o = 0; o < dimension; o++) {
+        row.push(o + dimension * i);
+        col.push(o * dimension + i);
+      }
+      lines.push(row);
+      lines.push(col);
+
+      slash1.push(i + dimension * i);
+      slash2.push((dimension - 1) * (i + 1));
+    }
+    lines.push(slash1);
+    lines.push(slash2);
+
+    const hits = this.state.hits.map(hit => parseInt(hit));
+    let rtn = [];
+
+    console.log("PARSE INT HITS", hits)
+
+    console.log(hits, lines)
+
+    for(let i = 0; i < lines.length; i++){
+      if (lines[i].every(c => hits.includes(c))) {
+        alert("LINE COMPLETE!")
+      }
+  }
+  
+
+}
+
   generateCards = (max) => {
     //Create pool of spaces
     const pool = Array.apply(null, Array(max + 1)).map(function (_, i) { return i; });
@@ -113,6 +176,7 @@ export default class App extends Component {
             hits={this.state.hits}
             slots={this.state.slots}
             dimension={dimension}
+            handle={this.handleClick}
           />
         </div>
       </div>

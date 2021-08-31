@@ -11,7 +11,7 @@ export default class Card extends Component {
       rows: []
     }
     this.createRows = this.createRows.bind(this)
-    this.handleClick = this.handleClick.bind(this)
+    
   }
 
   createRows = () => {
@@ -24,9 +24,6 @@ export default class Card extends Component {
     return bingoRows
   }
 
-  handleClick(event) {
-      event.target.classList.add("mark-found")
-  }
 
   render() {
     const gridSquare = this.props.dimension * this.props.dimension
@@ -38,7 +35,7 @@ export default class Card extends Component {
             key={i}
             lined={((this.props.hit_lines || []).includes(i))}
             idx={i} slots={this.props.slots}
-            handleClick={this.handleClick}
+            handleClick={this.props.handle}
           />
         </Grid>
       )
