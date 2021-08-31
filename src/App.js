@@ -8,35 +8,50 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      card: null,
       pick: new Array(dimension * dimension).fill(0),
       slots: [],
       row: [],
       column: [],
-      nxtNum: 1,
       options: dogBingoOptions,
       hits: null,
-      hit_step: 0,
-
     }
 
     this.handleClear = this.handleClear.bind(this)
     this.handleGenerateRandom = this.handleGenerateRandom.bind(this)
-    this.handleClick = this.handleClick.bind(this)
   }
 
   handleClear = () => {
-    this.setState({
-      card: null
-    })
+    const textConts = document.querySelectorAll('span.text-content')
+    for (let i = 0; i < textConts.length; i++) {
+      textConts[i].innerHTML = ""
+    }
+    //Remove marked from squares
+    this.removeMarked()
   }
+
+  removeMarked = () => {
+    const squares = document.getElementsByClassName('square')
+    for (let i = 0; i < squares.length; i++) {
+      squares[i].classList.remove('mark-found')
+    }
+  }
+
   handleGenerateRandom = () => {
     console.log(this.state.options)
     const randCards = this.generateCards(dimension * dimension)
     console.log(randCards)
     this.setState({
       slots: randCards,
-    })
+    }, function() { this.fillSquares() })
+    this.removeMarked()
+  }
+
+  fillSquares() {
+    const textConts = document.querySelectorAll('span.text-content')
+    for (let i = 0; i < textConts.length; i++) {
+      console.log("RANDOM ELEMENT", this.state.slots[i])
+      textConts[i].innerHTML = this.state.slots[i]
+    }
   }
 
   handleGo() {
@@ -46,17 +61,6 @@ export default class App extends Component {
       hits: hits,
       hit_step: this.state.hit_step + 1
     });
-  }
-
-  handleClick = (i) => {
-    if (this.state.pick[i] === 0) {
-      let newCardVals = this.state.pick.slice(0);
-      newCardVals[i] = this.state.nxtNum;
-      this.setState({
-        pick: newCardVals,
-        nxtNum: this.state.nxtNum + 1
-      })
-    }
   }
 
   handleClear() {
@@ -99,9 +103,6 @@ export default class App extends Component {
   }
 
   render() {
-
-
-
     return (
       <div className="container">
         <h1>Bingo</h1>
