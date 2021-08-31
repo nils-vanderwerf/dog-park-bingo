@@ -15,36 +15,45 @@ export default class Card extends Component {
         this.createRows = this.createRows.bind(this)
     }
 
+    componentDidMount() {
+      let bingoRows = this.createRows()
+      this.setState({
+        rows: bingoRows,
+      })
+    }
+
     createRows = () => {
       const { slots, dimension } = this.props
       console.log("SLOTS", slots)
+      let bingoRows = [];
       for (let i = 0; i < dimension; i++) {
-        console.log("DIMENSION, i", dimension, i, "START SLICE", dimension * (i), "END ", dimension * i + (dimension - 1) )
-        this.state.rows.push(
-          slots.slice(dimension * i, dimension * i + (dimension - 1) ) 
-        )
+        bingoRows[i] = slots.slice(dimension * i, dimension * i + dimension)
       }
-    }
-
-
+     return bingoRows
+      }
       
     render() {
-        const { dimension } = this.state
-        const card_rows = this.createRows()
+      
+      const rowsCopy = this.state.rows
+      console.log(rowsCopy)
 
-        
         return (
+          <div className="bingo_card">
             <Grid
                 container
                 direction="row"
                 justifyContent="center"
-                alignItems="center"
+                // alignItems="center"
                 className="group"
+                item xs={2.5}
             >
                 {this.state.rows.map(row => {
+                  return (
                   <BingoRow row = {row}/>
+                  )
                 })}
             </Grid>
+            </div>
         )
     }
 }

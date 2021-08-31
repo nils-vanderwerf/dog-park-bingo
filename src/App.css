@@ -21,12 +21,25 @@ body{
   display: inline-block;
   margin: 5px;
 }
-.black{
-  color: black;
+
+.Game__bingo_cards {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  gap: 20px;
 }
-black:hover{
-/*   color: yellow; */
+
+.Game__bingo_cards .square {
+  width: 100px;
+  height: 100px;
+  padding: 10px;
+  margin: 2px;
+  background-color: black;
+  display: flex;
+  text-align: center;
+  align-items: center;
 }
+
 .active{
   background-color: red;
 }
@@ -43,7 +56,22 @@ button{
   margin: 5px 2px;
 }
 button:hover{
-  background-color: white;
   color: black;
   cursor: pointer;
+}
+
+.square {
+  display: flex;
+  justify-content: center;
+  
+}
+
+.text-content {
+  text-align: center;
+  display: block;
+  width: 100%;
+  color: white;
+  align-items: center;
+  align-content: center;
+
 }

@@ -19,8 +19,16 @@ export default class App extends Component {
       hit_step: 0,
 
     }
+
+    this.handleClear = this.handleClear.bind(this)
     this.handleGenerateRandom = this.handleGenerateRandom.bind(this)
     this.handleClick = this.handleClick.bind(this)
+  }
+
+  handleClear = () => {
+    this.setState({
+      cards: []
+    })
   }
   handleGenerateRandom = () => {
     console.log(this.state.options)
@@ -101,14 +109,12 @@ export default class App extends Component {
     return arr;
   }
 
-  
-
   render() {
 
     return (
       <div>
         <h1>Bingo</h1>
-        <button>Clear</button>
+        <button onClick={this.handleClear}>Clear</button>
         <button onClick={this.handleGenerateRandom}>New Card</button>
         <div className="Game__bingo_cards">
           {this.state.cards}
