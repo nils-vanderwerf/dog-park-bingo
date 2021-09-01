@@ -31,7 +31,7 @@ export default class Card extends Component {
     for (let i = 0; i < gridSquare; i++) {
       
       card_tiles.push(
-        <Grid item style={{width: `calc(100% / ${this.props.dimension}`}}>
+        <Grid item style={{width: `calc(100% / ${this.props.dimension}`, aspectRatio: '1'}}>
           <BingoItem
             key={i}
             lined={((this.props.hit_lines || []).includes(i))}

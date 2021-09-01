@@ -5,7 +5,8 @@ import Card from './components/Card'
 import { styled } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 
-export let dimension = 4;
+// SET TO MAX OF 9 or add more options
+export let dimension = 5;
 
 export default class App extends Component {
   constructor(props) {
@@ -26,7 +27,7 @@ export default class App extends Component {
 
   handleClick(event) {
     event.target.classList.add("mark-found")
-    console.log("TARGET CHILDREN", event.target.lastChild.id)
+    if (event.target.lastChild.id !== undefined && !this.state.hits.includes(event.target.lastChild.id))
     this.setState({
       hits: [...this.state.hits, event.target.lastChild.id]
     }, function () { this.checkLine(event.target.lastChild.id) })
@@ -38,6 +39,9 @@ export default class App extends Component {
       textConts[i].innerHTML = ""
     }
     //Remove marked from squares
+    this.setState({
+      hits: []
+    })
     this.removeMarked()
   }
 
@@ -54,6 +58,7 @@ export default class App extends Component {
     console.log(randCards)
     this.setState({
       slots: randCards,
+      hits: []
     }, function () { this.fillSquares() })
     this.removeMarked()
   }
@@ -99,7 +104,6 @@ export default class App extends Component {
   }
 
   checkLine(clickedEl) {
-    console.log("CLICKED EL", clickedEl)
     const lines = [
       //       [0,1,2,3,4],
       //       [5,6,7,8,9],
@@ -138,10 +142,6 @@ export default class App extends Component {
 
     const hits = this.state.hits.map(hit => parseInt(hit));
 
-    console.log("PARSE INT HITS", hits)
-
-    console.log(hits, lines)
-
     for (let i = 0; i < lines.length; i++) {
       //If the hits includes every member of a line
       //and the prev completed array has not been completed before
@@ -158,6 +158,7 @@ export default class App extends Component {
         alert(`~~~ ALL LINES COMPLETE! YOU WIN! ~~~`)
       }
     }
+    this.checkWholeSquare()
   }
 
   indicateCompletedLine = (compLine) => {
@@ -168,7 +169,20 @@ export default class App extends Component {
         console.log("TARGETED FINISHED ELEMENT", targElement)
         targElement.classList.add('mark-line-complete')
       })
+      //Check if all squares have been checked
+      
   }
+
+  checkWholeSquare = () => {
+    if (this.state.hits.length >= this.state.slots.length) {
+      //Replace with modal
+      alert("BINGO!")
+    }
+  }
+
+
+
+
 
   generateCards = (max) => {
     //Create pool of spaces
