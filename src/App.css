@@ -178,7 +178,12 @@ background-color: #038C4C;
 
 @media all and (max-width: 500px) {
 
+  .container-inner {
+    width: 100%;
+  }
+
   .square span.text-content {
   font-size: 12px !important
+
   }
 }
