@@ -10,9 +10,8 @@ export default class BingoItem extends React.Component{
 
     render(){
       return(
-        <Grid item className="square" align-items="center"
-          onClick={(e) => this.props.handleClick(e)}>
-                <span class="text-content" style={{fontSize: this.props.dimension <= 6 ? '20px' : '16px'}}></span>
+        <Grid item className="square" align-items="center">
+                <span onClick={(e) => this.props.handleClick(e)} class="text-content" style={{fontSize: this.props.dimension <= 6 ? '20px' : '16px'}}></span>
         </Grid>
       );
     }

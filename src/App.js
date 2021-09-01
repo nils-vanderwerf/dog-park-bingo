@@ -56,11 +56,11 @@ export default class App extends Component {
   }
 
   handleClick(event) {
-    event.target.classList.add("mark-found")
-    if (event.target.lastChild.id !== undefined && !this.state.hits.includes(event.target.lastChild.id))
+    event.target.parentElement.classList.add("mark-found")
+    if (event.target.id !== undefined && !this.state.hits.includes(event.target.id))
       this.setState({
-        hits: [...this.state.hits, event.target.lastChild.id]
-      }, function () { this.checkLine(event.target.lastChild.id) })
+        hits: [...this.state.hits, event.target.id]
+      }, function () { this.checkLine(event.target.id) })
 
       document.getElementById("completed-line").style.opacity = 0;
   }

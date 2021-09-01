@@ -151,6 +151,16 @@ background-color: #038C4C;
 
 @media all and (max-width: 768px) {
 
+  .button-container .MuiButton-contained {
+    margin: auto;
+  }
+
+  .button-container .MuiButton-contained:first-of-type {
+    height: 50px;
+    margin-bottom: 10px;
+  }
+
+
   .container, .MuiGrid-root.square.MuiGrid-item {
     padding: 5px;
   }
@@ -163,5 +173,12 @@ background-color: #038C4C;
   }
   .square span.text-content {
   font-size: 14px !important
+  }
+}
+
+@media all and (max-width: 500px) {
+
+  .square span.text-content {
+  font-size: 12px !important
   }
 }
