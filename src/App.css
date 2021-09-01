@@ -50,7 +50,6 @@ h1 {
 }
 
 .Game__bingo_card .square {
-  
   flex-wrap: nowrap;
   padding: 10px;
   margin: 2px;
@@ -61,8 +60,10 @@ h1 {
   transition: background-color 0.25s ease;
 }
 
-.MuiGrid-root MuiGrid-item {
-  padding: 10px;
+.MuiAlert-filledSuccess {
+  max-width: 800px;
+  margin: 10px 0;
+  margin: auto;
 }
 
 .MuiGrid-root.square.MuiGrid-item {
@@ -86,6 +87,11 @@ h1 {
 
 .MuiTypography-root svg {
   font-size: 60px;
+  color: #8C1B24
+}
+
+.MuiDialog-paper {
+  padding: 20px;
 }
 
 
@@ -102,7 +108,7 @@ background-color: #038C4C;
 }
 
 .button-container {
-  margin: auto;
+  margin: 30px auto;
   justify-content: center;
 }
 
@@ -111,6 +117,15 @@ background-color: #038C4C;
   justify-content: center;
 }
 
+.MuiAlert-filledSuccess {
+  background-color: #038C4C;
+  transition: opacity 1s ease-in-out;
+  -moz-transition: opacity 1s ease-in-out;
+  -webkit-transition: opacity 1s ease-in-out;
+}
+#completed-line {
+  opacity: 0;
+}
 .button-container .MuiButton-root {
   margin-right: 20px;
   width: 200px;

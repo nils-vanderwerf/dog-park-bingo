@@ -4,11 +4,9 @@ import Card from './components/Card'
 // import './App.css'
 import { styled } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
-import { Modal } from '@material-ui/core';
-import { faDog } from '@fortawesome/free-solid-svg-icons'
-import {  withStyles } from '@material-ui/core/styles';
-import DialogContent from '@material-ui/core/DialogContent';
+import Alert from '@material-ui/lab/Alert';
 import Dialogue from './components/Dialogue';
+import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 
 // SET TO MAX OF 9 or add more options
 export let dimension = 5;
@@ -25,6 +23,18 @@ const styles = (theme) => ({
     color: theme.palette.grey[500],
   },
 });
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#07B0F2',
+    },
+    alert: {
+      main: '#038C4C'
+    }
+  },
+});
+
 
 
 export default class App extends Component {
@@ -52,6 +62,7 @@ export default class App extends Component {
         hits: [...this.state.hits, event.target.lastChild.id]
       }, function () { this.checkLine(event.target.lastChild.id) })
 
+      document.getElementById("completed-line").style.opacity = 0;
   }
   handleClear = () => {
     const textConts = document.querySelectorAll('span.text-content')
@@ -64,6 +75,7 @@ export default class App extends Component {
       prevCompleted: []
     })
     this.removeMarked()
+    document.getElementById("completed-line").style.opacity = 0;
   }
 
   removeMarked = () => {
@@ -74,7 +86,7 @@ export default class App extends Component {
   }
 
   handleGenerateRandom = () => {
-    console.log(this.state.options)
+    document.getElementById("completed-line").style.opacity = 0;
     const randCards = this.generateCards(dimension * dimension)
     console.log(randCards)
     this.setState({
@@ -194,14 +206,17 @@ export default class App extends Component {
       console.log("ID OF COMPLETED", id)
       let targElement = document.getElementById(`${id}`).parentElement
       console.log("TARGETED FINISHED ELEMENT", targElement)
+
       targElement.classList.add('mark-line-complete')
     })
+    document.getElementById("completed-line").style.opacity = 1;
+
     //Check if all squares have been checked
 
   }
 
   checkWholeSquare = () => {
-    if (this.state.hits.length >= this.state.slots.length && this.state.slots.length !== 0 ) {
+    if (this.state.hits.length >= this.state.slots.length && this.state.slots.length !== 0) {
       //Replace with modal
       this.setState({
         showState: true
@@ -226,15 +241,25 @@ export default class App extends Component {
   }
 
   render() {
+
+    const alert = document.getElementById('completed-line')
+    console.log(alert)
+
     return (
       <div className="container">
         <h1>Bingo</h1>
         <div className="button-container">
           <div className="container-inner">
-            <Button variant="contained" color="primary" onClick={this.handleClear}>Clear</Button>
-            <Button variant="contained" color="primary" onClick={this.handleGenerateRandom}>New Card</Button>
+            <ThemeProvider theme={theme}>
+              <Button variant="contained" color="primary"
+                onClick={this.handleClear}>Clear</Button>
+              <Button variant="contained" color="primary" onClick={this.handleGenerateRandom}>New Card</Button>
+            </ThemeProvider>
           </div>
         </div>
+        <Alert id="completed-line" variant="filled" severity="success">
+          Line Complete!
+        </Alert>
         <div className="Game__bingo_card">
           <Card
             hits={this.state.hits}
@@ -243,12 +268,13 @@ export default class App extends Component {
             handle={this.handleClick}
           />
         </div>
-        <Dialogue 
-          handleClose={this.handleClose}
-          showState={this.state.showState}
+        <ThemeProvider theme={theme}>
+          <Dialogue
+            handleClose={this.handleClose}
+            showState={this.state.showState}
           >
-
-        </Dialogue>
+          </Dialogue>
+        </ThemeProvider>
 
       </div>
     )
