@@ -1,3 +1,4 @@
+
 body{
   background-color: gray;
 }
@@ -8,11 +9,9 @@ body{
 
 h1 {
   text-align: center;
+  color: #fff
 }
-.btn:hover{
-/*   background-color: yellow; */
-/*   color: black; */
-}
+
 .group{
   background-color: white;
   padding: 5px;
@@ -24,6 +23,7 @@ h1 {
   background-color: #fff;
   padding: 20px;
   max-width: 800px;
+  max-height: 100vh;
   display: flex;
   margin: auto;
   margin-top: 40px;
@@ -47,33 +47,45 @@ h1 {
   transition: background-color 0.25s ease;
 }
 
+.Game__bingo_card .square:hover {
+  cursor: pointer;
+  background-color: rgb(71, 71, 71);
+}
+
+
+
 .Game__bingo_card .square.mark-found {
   background-color: #cf901b;
 }
 
-.active{
-  background-color: red;
-}
-.lined{
-  background-color: yellow;
-  color: black;
+.Game__bingo_card .square.mark-line-complete {
+background-color: #038C4C;
 }
 
-button{
-  color: white;
-  background-color: #666ddd;
-  border: white solid thin;
-  padding: 3px 18px;
-  margin: 5px 2px;
+.bingo_card {
+  margin: auto;
 }
-button:hover{
-  color: black;
-  cursor: pointer;
+
+.button-container {
+  margin: auto;
+  justify-content: center;
+}
+
+.MuiGrid-container.bingo_card {
+  margin: auto;
+  justify-content: center;
+}
+
+.button-container .MuiButton-root {
+  margin-right: 20px;
+  width: 200px;
+  height: 50px;
 }
 
 .square {
   display: flex;
   justify-content: center;
+  font-size: 20px;
   
 }
 

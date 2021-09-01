@@ -29,8 +29,9 @@ export default class Card extends Component {
     const gridSquare = this.props.dimension * this.props.dimension
     let card_tiles = [];
     for (let i = 0; i < gridSquare; i++) {
+      
       card_tiles.push(
-        <Grid item style={{ width: '20%' }}>
+        <Grid item style={{width: `calc(100% / ${this.props.dimension}`}}>
           <BingoItem
             key={i}
             lined={((this.props.hit_lines || []).includes(i))}

@@ -3,7 +3,9 @@ import { dogBingoOptions } from './constants/dogBingoOptions'
 import Card from './components/Card'
 // import './App.css'
 import { styled } from '@material-ui/core/styles';
-let dimension = 5;
+import { Button } from '@material-ui/core';
+
+export let dimension = 4;
 
 export default class App extends Component {
   constructor(props) {
@@ -14,7 +16,7 @@ export default class App extends Component {
       rows: [],
       column: [],
       options: dogBingoOptions,
-      hits: [], 
+      hits: [],
       prevCompleted: []
     }
     this.handleClick = this.handleClick.bind(this)
@@ -42,7 +44,7 @@ export default class App extends Component {
   removeMarked = () => {
     const squares = document.getElementsByClassName('square')
     for (let i = 0; i < squares.length; i++) {
-      squares[i].classList.remove('mark-found')
+      squares[i].classList.remove('mark-found', 'mark-line-complete')
     }
   }
 
@@ -140,13 +142,14 @@ export default class App extends Component {
 
     console.log(hits, lines)
 
-    for(let i = 0; i < lines.length; i++){
+    for (let i = 0; i < lines.length; i++) {
       //If the hits includes every member of a line
       //and the prev completed array has not been completed before
-      if (lines[i].every(c => hits.includes(c)) && 
-      !this.state.prevCompleted.includes(i) &&
-      this.state.prevCompleted.length < 12 ) {
-        alert(`LINE ${i} COMPLETE!`)
+      if (lines[i].every(c => hits.includes(c)) &&
+        !this.state.prevCompleted.includes(i) &&
+        this.state.prevCompleted.length < 12) {
+        // alert(`LINE ${i} COMPLETE!`)
+        this.indicateCompletedLine(lines[i])
         this.setState({
           prevCompleted: [...this.state.prevCompleted, i]
         })
@@ -154,10 +157,18 @@ export default class App extends Component {
       else if (this.state.prevCompleted.length === 12) {
         alert(`~~~ ALL LINES COMPLETE! YOU WIN! ~~~`)
       }
+    }
   }
-  
 
-}
+  indicateCompletedLine = (compLine) => {
+    console.log("LINE COMPLETE", compLine)
+      compLine.forEach(id => {
+        console.log("ID OF COMPLETED", id)
+        let targElement = document.getElementById(`${id}`).parentElement
+        console.log("TARGETED FINISHED ELEMENT", targElement)
+        targElement.classList.add('mark-line-complete')
+      })
+  }
 
   generateCards = (max) => {
     //Create pool of spaces
@@ -179,8 +190,10 @@ export default class App extends Component {
     return (
       <div className="container">
         <h1>Bingo</h1>
-        <button onClick={this.handleClear}>Clear</button>
-        <button onClick={this.handleGenerateRandom}>New Card</button>
+        <div className="button-container">
+          <Button variant="contained" color="primary" onClick={this.handleClear}>Clear</Button>
+          <Button variant="contained" color="primary" onClick={this.handleGenerateRandom}>New Card</Button>
+        </div>
         <div className="Game__bingo_card">
           <Card
             hits={this.state.hits}
