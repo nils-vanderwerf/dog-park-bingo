@@ -37,6 +37,7 @@ export default class Card extends Component {
             lined={((this.props.hit_lines || []).includes(i))}
             idx={i} slots={this.props.slots}
             handleClick={this.props.handle}
+            dimension={this.props.dimension}
           />
         </Grid>
       )

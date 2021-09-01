@@ -1,9 +1,9 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 body{
-  background-color: gray;
-  font-family: 'Indie Flower', cursive, sans-serif;
+  background-color: #333;
+  font-family: 'Roboto', sans-serif;
+  /* font-family: 'Indie Flower', cursive, sans-serif; */
 }
 
 .container {
@@ -22,12 +22,23 @@ h1 {
   margin: 5px;
 }
 
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+}
+
+.button-container .container-inner {
+  display: inline-block;
+  margin: auto;
+}
+
 .Game__bingo_card {
   background-color: #fff;
   padding: 20px;
+  display: grid;
+  grid-auto-rows: 1fr;
   max-width: 800px;
-  max-height: 100vh;
-  display: flex;
   margin: auto;
   margin-top: 40px;
   margin-bottom: 20px;
@@ -39,7 +50,7 @@ h1 {
 }
 
 .Game__bingo_card .square {
-  aspect-ratio: 1;
+  
   flex-wrap: nowrap;
   padding: 10px;
   margin: 2px;
@@ -50,11 +61,32 @@ h1 {
   transition: background-color 0.25s ease;
 }
 
+.MuiGrid-root MuiGrid-item {
+  padding: 10px;
+}
+
+.MuiGrid-root.square.MuiGrid-item {
+  height: 96%;
+  padding: 10px;
+}
+
 .Game__bingo_card .square:hover {
   cursor: pointer;
   background-color: rgb(71, 71, 71);
 }
 
+.MuiDialog-root {
+  padding: 20px;
+}
+
+.MuiTypography-root {
+  text-align: center;
+  font-size: 60px;
+}
+
+.MuiTypography-root svg {
+  font-size: 60px;
+}
 
 
 .Game__bingo_card .square.mark-found {
@@ -94,10 +126,16 @@ background-color: #038C4C;
 
 .text-content {
   text-align: center;
+  word-wrap: break-word;
   display: block;
   width: 100%;
   color: white;
   align-items: center;
   align-content: center;
+}
 
+@media all and (max-width: 600px) {
+  .square span.text-content {
+  font-size: 14px !important
+  }
 }

@@ -4,9 +4,28 @@ import Card from './components/Card'
 // import './App.css'
 import { styled } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
+import { Modal } from '@material-ui/core';
+import { faDog } from '@fortawesome/free-solid-svg-icons'
+import {  withStyles } from '@material-ui/core/styles';
+import DialogContent from '@material-ui/core/DialogContent';
+import Dialogue from './components/Dialogue';
 
 // SET TO MAX OF 9 or add more options
 export let dimension = 5;
+
+const styles = (theme) => ({
+  root: {
+    margin: 0,
+    padding: theme.spacing(2),
+  },
+  closeButton: {
+    position: 'absolute',
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    color: theme.palette.grey[500],
+  },
+});
+
 
 export default class App extends Component {
   constructor(props) {
@@ -18,7 +37,8 @@ export default class App extends Component {
       column: [],
       options: dogBingoOptions,
       hits: [],
-      prevCompleted: []
+      prevCompleted: [],
+      showState: false
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleClear = this.handleClear.bind(this)
@@ -28,9 +48,9 @@ export default class App extends Component {
   handleClick(event) {
     event.target.classList.add("mark-found")
     if (event.target.lastChild.id !== undefined && !this.state.hits.includes(event.target.lastChild.id))
-    this.setState({
-      hits: [...this.state.hits, event.target.lastChild.id]
-    }, function () { this.checkLine(event.target.lastChild.id) })
+      this.setState({
+        hits: [...this.state.hits, event.target.lastChild.id]
+      }, function () { this.checkLine(event.target.lastChild.id) })
 
   }
   handleClear = () => {
@@ -40,7 +60,8 @@ export default class App extends Component {
     }
     //Remove marked from squares
     this.setState({
-      hits: []
+      hits: [],
+      prevCompleted: []
     })
     this.removeMarked()
   }
@@ -58,7 +79,8 @@ export default class App extends Component {
     console.log(randCards)
     this.setState({
       slots: randCards,
-      hits: []
+      hits: [],
+      prevCompleted: []
     }, function () { this.fillSquares() })
     this.removeMarked()
   }
@@ -91,6 +113,12 @@ export default class App extends Component {
       hit_step: 0
     });
   }
+
+  handleClose = () => {
+    this.setState({
+      showState: false
+    })
+  };
 
   handleAdd() {
     const pick = this.state.pick;
@@ -140,6 +168,8 @@ export default class App extends Component {
     lines.push(slash1);
     lines.push(slash2);
 
+    console.log("LINES", lines)
+
     const hits = this.state.hits.map(hit => parseInt(hit));
 
     for (let i = 0; i < lines.length; i++) {
@@ -147,15 +177,12 @@ export default class App extends Component {
       //and the prev completed array has not been completed before
       if (lines[i].every(c => hits.includes(c)) &&
         !this.state.prevCompleted.includes(i) &&
-        this.state.prevCompleted.length < 12) {
+        this.state.slots.length !== 0) {
         // alert(`LINE ${i} COMPLETE!`)
         this.indicateCompletedLine(lines[i])
         this.setState({
           prevCompleted: [...this.state.prevCompleted, i]
         })
-      }
-      else if (this.state.prevCompleted.length === 12) {
-        alert(`~~~ ALL LINES COMPLETE! YOU WIN! ~~~`)
       }
     }
     this.checkWholeSquare()
@@ -163,26 +190,24 @@ export default class App extends Component {
 
   indicateCompletedLine = (compLine) => {
     console.log("LINE COMPLETE", compLine)
-      compLine.forEach(id => {
-        console.log("ID OF COMPLETED", id)
-        let targElement = document.getElementById(`${id}`).parentElement
-        console.log("TARGETED FINISHED ELEMENT", targElement)
-        targElement.classList.add('mark-line-complete')
-      })
-      //Check if all squares have been checked
-      
+    compLine.forEach(id => {
+      console.log("ID OF COMPLETED", id)
+      let targElement = document.getElementById(`${id}`).parentElement
+      console.log("TARGETED FINISHED ELEMENT", targElement)
+      targElement.classList.add('mark-line-complete')
+    })
+    //Check if all squares have been checked
+
   }
 
   checkWholeSquare = () => {
-    if (this.state.hits.length >= this.state.slots.length) {
+    if (this.state.hits.length >= this.state.slots.length && this.state.slots.length !== 0 ) {
       //Replace with modal
-      alert("BINGO!")
+      this.setState({
+        showState: true
+      })
     }
   }
-
-
-
-
 
   generateCards = (max) => {
     //Create pool of spaces
@@ -205,8 +230,10 @@ export default class App extends Component {
       <div className="container">
         <h1>Bingo</h1>
         <div className="button-container">
-          <Button variant="contained" color="primary" onClick={this.handleClear}>Clear</Button>
-          <Button variant="contained" color="primary" onClick={this.handleGenerateRandom}>New Card</Button>
+          <div className="container-inner">
+            <Button variant="contained" color="primary" onClick={this.handleClear}>Clear</Button>
+            <Button variant="contained" color="primary" onClick={this.handleGenerateRandom}>New Card</Button>
+          </div>
         </div>
         <div className="Game__bingo_card">
           <Card
@@ -216,6 +243,13 @@ export default class App extends Component {
             handle={this.handleClick}
           />
         </div>
+        <Dialogue 
+          handleClose={this.handleClose}
+          showState={this.state.showState}
+          >
+
+        </Dialogue>
+
       </div>
     )
   }
