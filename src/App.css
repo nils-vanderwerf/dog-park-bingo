@@ -141,7 +141,6 @@ background-color: #038C4C;
 
 .text-content {
   text-align: center;
-  word-wrap: break-word;
   display: block;
   width: 100%;
   color: white;
@@ -149,7 +148,14 @@ background-color: #038C4C;
   align-content: center;
 }
 
-@media all and (max-width: 600px) {
+@media all and (max-width: 768px) {
+  .Game__bingo_card {
+    padding: 0;
+  }
+  .button-container .MuiButton-root, button {
+    width: 100%;
+    margin-bottom: 20px;
+  }
   .square span.text-content {
   font-size: 14px !important
   }
