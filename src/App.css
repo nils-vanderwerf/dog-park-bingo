@@ -141,6 +141,7 @@ background-color: #038C4C;
 
 .text-content {
   text-align: center;
+  word-break: normal;
   display: block;
   width: 100%;
   color: white;
@@ -149,6 +150,10 @@ background-color: #038C4C;
 }
 
 @media all and (max-width: 768px) {
+
+  .container, .MuiGrid-root.square.MuiGrid-item {
+    padding: 5px;
+  }
   .Game__bingo_card {
     padding: 0;
   }
